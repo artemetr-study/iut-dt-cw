@@ -23,18 +23,36 @@ class Model:
         return self.a.shape[1]
 
     def has_valid_basis(self):
-        return not bool(sum([(i is None) or bool(sum(self.a[:,i]) != 1) for i in self.basis]))
+        return not bool(sum([(i is None) or bool(sum(self.a[:, i]) != 1) for i in self.basis]))
 
     def has_basic_solution(self):
         return not bool(sum(self.b < 0))
 
-    def to_m_task(self, sanction=10 ** 3):
-        a_rows = self.rows
-        a_columns = self.columns
-        m_a = np.concatenate((self.a, np.diag(np.ones((a_rows,)))), axis=1)  # Складываем с единичной матрицей
+    def to_m_task(self, sanction=10 ** 3, find_exists: bool = False):
+        self.basis = np.array([None for _ in range(self.rows)])
+
+        if find_exists:
+            defined_basis_rows = [[column_number, column.tolist().index(1)] for column, column_number in
+                                  zip(self.a.T, range(self.columns)) if
+                                  (column == 1).sum() == 1 and (column == 0).sum() == column.size - 1 and self.c[
+                                      column_number] == 0]
+            for [column_number, row_number] in defined_basis_rows:
+                if self.basis[row_number] is None:
+                    self.basis[row_number] = column_number
+
+        undefined_basis_rows = []
+        for row_number in range(self.basis.size):
+            basis_value = self.basis[row_number]
+            if basis_value is None:
+                self.basis[row_number] = self.columns + len(undefined_basis_rows)
+                undefined_basis_rows.append(row_number)
+
+        m_a = np.array([[1 if row_number == needed_row else 0 for row_number in range(self.rows)] for needed_row in
+                        undefined_basis_rows]).T
+        m_a = np.concatenate((self.a, m_a), axis=1)  # Складываем с единичной матрицей
 
         m_sum_a = sum(self.a) * sanction
-        m_c = np.concatenate((self.c - m_sum_a if self.maximization else self.c + m_sum_a, np.zeros((a_rows,))))
+        m_c = np.concatenate((self.c - m_sum_a if self.maximization else self.c + m_sum_a, np.zeros((len(undefined_basis_rows),))))
 
         m_sum_b = sum(self.b) * sanction
         m_f = self.f - m_sum_b if self.maximization else self.f + m_sum_b
@@ -42,7 +60,6 @@ class Model:
         self.a = m_a
         self.c = m_c
         self.f = m_f
-        self.basis = np.array(list(range(a_columns, self.columns)))
 
         return self
 
