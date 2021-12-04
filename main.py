@@ -2,13 +2,12 @@ import numpy as np
 
 from model import Model
 from model_parser import parse
-from ranil.gomori_method import GomoriMethod
-from ranil.m_method import MMethod
+from gomori_method import GomoriMethod
 from simplex_method import SimplexMethod
-from simplex_method_mocks import mock_models_1
+from gomori_method_mocks import mock_models_1
 
 if __name__ == '__main__':
-    SimplexMethod.solve(mock_models_1.not_optimal)
+    print(GomoriMethod.solve(mock_models_1.not_optimal))
 
     # maximum, model_ = parse('model.txt')
     # model_ = np.array(model_)
