@@ -28,7 +28,7 @@ mock_solved_f = 8 / 3
 mock_b = np.array([5, 4, 3, 2])
 
 
-class SimplexMethodTest(unittest.TestCase):
+class SimplexMethodTestCase(unittest.TestCase):
     def test__is_optimal_solution_max_optimal(self):
         self.assertEqual(True,
                          SimplexMethod(Model(mock_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0,
