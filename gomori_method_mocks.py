@@ -43,3 +43,30 @@ mock_models_2 = Models(not_optimal=Model(
     basis=np.array([0, 1, 7, 3, 9, 4]),
     maximization=False
 ))
+
+mock_models_3 = Models(
+    not_optimal=Model(
+        a=np.array([
+            [np.longdouble(1) / np.longdouble(300), 0, 0, 0, np.longdouble(1) / np.longdouble(700), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(400), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(900), 0, 0, 0, 1, 0, 0, 0],
+            [0, np.longdouble(1) / np.longdouble(700), 0, 0, 0, np.longdouble(1) / np.longdouble(800), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(400), 0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(900), 0, 0, 0, 1, 0, 0],
+            [0, 0, np.longdouble(1) / np.longdouble(800), 0, 0, 0, np.longdouble(1) / np.longdouble(600), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(400), 0, 0, 0, np.longdouble(1) / np.longdouble(200), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(400), 0, 0, 0, 1, 0],
+            [0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(700), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(600), 0, 0, 0, 1],
+            [1, 1, 1, 1, 0, 0, 0, 0, -3, -3, -3, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, -4, -4, -4, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2, -2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, -5, -5, -5, -5, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0]
+        ]),
+        b=np.array([1, 1, 1, 1, 0, 0, 0, 0]),
+        c=np.array([0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+        f=0,
+        maximization=True
+    ).to_m_task()
+)

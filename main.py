@@ -1,14 +1,39 @@
 import numpy as np
 
+from gomori_method import GomoriMethod
 from model import Model
 from model_parser import parse
-from gomori_method import GomoriMethod
-from simplex_method import SimplexMethod
-from gomori_method_mocks import mock_models_1
 
 if __name__ == '__main__':
-    print(GomoriMethod.solve(mock_models_1.not_optimal))
+    # print(GomoriMethod.solve(mock_models_1.not_optimal))
 
+    asd = Model(
+        a=np.array([
+            [np.longdouble(1) / np.longdouble(300), 0, 0, 0, np.longdouble(1) / np.longdouble(700), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(400), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(900), 0, 0, 0, 1, 0, 0, 0],
+            [0, np.longdouble(1) / np.longdouble(700), 0, 0, 0, np.longdouble(1) / np.longdouble(800), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(400), 0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(900), 0, 0, 0, 1, 0, 0],
+            [0, 0, np.longdouble(1) / np.longdouble(800), 0, 0, 0, np.longdouble(1) / np.longdouble(600), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(400), 0, 0, 0, np.longdouble(1) / np.longdouble(200), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(400), 0, 0, 0, 1, 0],
+            [0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(700), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0,
+             np.longdouble(1) / np.longdouble(600), 0, 0, 0, 1],
+            [1, 1, 1, 1, 0, 0, 0, 0, -3, -3, -3, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, -4, -4, -4, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2, -2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, -5, -5, -5, -5, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0]
+        ]),
+        b=np.array([1, 1, 1, 1, 0, 0, 0, 0]),
+        c=np.array([0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+        f=0,
+        maximization=True
+    ).to_m_task()
+
+    print(asd)
+    print(GomoriMethod.solve(asd))
     # maximum, model_ = parse('model.txt')
     # model_ = np.array(model_)
     # A_ = model_[0:model_.shape[0] - 1, 1:model_.shape[1]]

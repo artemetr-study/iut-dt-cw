@@ -37,7 +37,7 @@ class SimplexMethod:
         calculated_divs = np.array([b_value / row_value if row_value > 0 else max_longdouble for row_value, b_value in zip(column, self._model.b)])
 
         min_calculated_div = calculated_divs.min()
-        if not min_calculated_div or min_calculated_div == max_longdouble:
+        if min_calculated_div == max_longdouble:
             raise Exception('Undefined exception')
 
         min_row_index = np.where(calculated_divs == min_calculated_div)[0]
