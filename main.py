@@ -2,25 +2,25 @@ import numpy as np
 
 from gomori_method import GomoriMethod
 from model import Model
-from model_parser import parse
+from simplex_method import SimplexMethod
 
 if __name__ == '__main__':
     # print(GomoriMethod.solve(mock_models_1.not_optimal))
 
     asd = Model(
         a=np.array([
-            [np.longdouble(1) / np.longdouble(300), 0, 0, 0, np.longdouble(1) / np.longdouble(700), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(400), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(900), 0, 0, 0, 1, 0, 0, 0],
-            [0, np.longdouble(1) / np.longdouble(700), 0, 0, 0, np.longdouble(1) / np.longdouble(800), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(400), 0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(900), 0, 0, 0, 1, 0, 0],
-            [0, 0, np.longdouble(1) / np.longdouble(800), 0, 0, 0, np.longdouble(1) / np.longdouble(600), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(400), 0, 0, 0, np.longdouble(1) / np.longdouble(200), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(400), 0, 0, 0, 1, 0],
-            [0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(700), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(500), 0, 0, 0, np.longdouble(1) / np.longdouble(500), 0, 0, 0,
-             np.longdouble(1) / np.longdouble(600), 0, 0, 0, 1],
+            ['1/300', 0, 0, 0, '1/700', 0, 0, 0,
+             '1/500', 0, 0, 0, '1/400', 0, 0, 0,
+             '1/900', 0, 0, 0, 1, 0, 0, 0],
+            [0, '1/700', 0, 0, 0, '1/800', 0, 0, 0,
+             '1/400', 0, 0, 0, '1/500', 0, 0, 0,
+             '1/900', 0, 0, 0, 1, 0, 0],
+            [0, 0, '1/800', 0, 0, 0, '1/600', 0, 0, 0,
+             '1/400', 0, 0, 0, '1/200', 0, 0, 0,
+             '1/400', 0, 0, 0, 1, 0],
+            [0, 0, 0, '1/500', 0, 0, 0, '1/700', 0, 0, 0,
+             '1/500', 0, 0, 0, '1/500', 0, 0, 0,
+             '1/600', 0, 0, 0, 1],
             [1, 1, 1, 1, 0, 0, 0, 0, -3, -3, -3, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 1, 1, 1, -4, -4, -4, -4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, -2, -2, -2, -2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],

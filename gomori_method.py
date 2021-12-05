@@ -1,3 +1,5 @@
+from fractions import Fraction
+
 import numpy as np
 
 from model import Model
@@ -36,10 +38,10 @@ class GomoriMethod(SimplexMethod):
 
     def _add_condition(self, column_number):
         row_number = self._model.basis.tolist().index(column_number)
-        self._model.a = Model.ndarray_to_longdouble(np.array(np.concatenate((self._model.a, np.zeros((self._model.rows, 1))), axis=1).tolist() + [[self._get_floating_part(i) for i in self._model.a.tolist()[row_number]] + [-1]]))
-        self._model.b = Model.ndarray_to_longdouble(np.array(self._model.b.tolist() + [self._get_floating_part(self._model.b[row_number])]))
+        self._model.a = Model.array(np.concatenate((self._model.a, np.zeros((self._model.rows, 1))), axis=1).tolist() + [[self._get_floating_part(i) for i in self._model.a.tolist()[row_number]] + [-1]])
+        self._model.b = Model.array(self._model.b.tolist() + [self._get_floating_part(self._model.b[row_number])])
         self._model.basis = np.array(self._model.basis.tolist() + [None])
-        self._model.c = Model.ndarray_to_longdouble(np.array(self._model.c.tolist() + [1]))
+        self._model.c = Model.array(self._model.c.tolist() + [1])
 
         self._model.to_m_task(find_exists=True)
 
