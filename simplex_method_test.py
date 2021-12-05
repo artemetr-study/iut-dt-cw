@@ -18,11 +18,9 @@ mock_not_optimal_columns_with_one_available_column = Model.array(
     [[0, -1, -1, 1], [0, 1, -1, 2], [-1, -1, -1, -2], [0, -3, -2, -1]]).T
 mock_invalid_optimal_columns = Model.array([[0, 1, 1, 1], [0, -1, -1, -1], [-1, -1, -1, -1], [0, -1, -1, -1]]).T
 
-mock_solved_columns = Model.array(
-    [[0, -Fraction('1/3'), -1 + Fraction('2/3'), 1 - Fraction('1/3')],
-     [0, Fraction('1/3'), -1 - Fraction('2/3'), 2 + Fraction('1/3')],
-     [-1, -Fraction('1/3'), -1 + Fraction('2/3'), -2 - Fraction('1/3')],
-     [0, 1, 0, 0]]).T
+mock_solved_columns = Model.array([[0, -Fraction('1/3'), -1 + Fraction('2/3'), 1 - Fraction('1/3')],
+                                   [0, Fraction('1/3'), -1 - Fraction('2/3'), 2 + Fraction('1/3')],
+                                   [-1, -Fraction('1/3'), -1 + Fraction('2/3'), -2 - Fraction('1/3')], [0, 1, 0, 0]]).T
 mock_solved_b = Model.array([5, Fraction('4/3'), 3 - Fraction('8/3'), 2 + Fraction('4/3')])
 mock_solved_marks = Model.array([-Fraction('2/3'), -1 + Fraction('2/3'), 1 - Fraction('2/3'), 0])
 mock_solved_basis = np.array([None, 3, None, None])
@@ -33,15 +31,14 @@ mock_b = Model.array([5, 4, 3, 2])
 
 class SimplexMethodTestCase(unittest.TestCase):
     def test__is_optimal_solution_max_optimal(self):
-        self.assertEqual(True,
-                         SimplexMethod(Model(mock_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0,
-                                             True))._is_optimal_solution())
+        self.assertEqual(True, SimplexMethod(
+            Model(mock_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0,
+                  True))._is_optimal_solution())
 
     def test__is_optimal_solution_max_not_optimal(self):
-        self.assertEqual(False,
-                         SimplexMethod(
-                             Model(mock_not_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0,
-                                   True))._is_optimal_solution())
+        self.assertEqual(False, SimplexMethod(
+            Model(mock_not_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0,
+                  True))._is_optimal_solution())
 
     def test__is_optimal_solution_max_invalid_optimal(self):
         method = SimplexMethod(
@@ -49,15 +46,14 @@ class SimplexMethodTestCase(unittest.TestCase):
         self.assertRaises(Exception, method._is_optimal_solution)
 
     def test__is_optimal_solution_min_optimal(self):
-        self.assertEqual(True,
-                         SimplexMethod(Model(mock_optimal_min_mark_string, mock_not_optimal_columns, np.array([]), 0,
-                                             False))._is_optimal_solution())
+        self.assertEqual(True, SimplexMethod(
+            Model(mock_optimal_min_mark_string, mock_not_optimal_columns, np.array([]), 0,
+                  False))._is_optimal_solution())
 
     def test__is_optimal_solution_min_not_optimal(self):
-        self.assertEqual(False,
-                         SimplexMethod(
-                             Model(mock_not_optimal_min_mark_string, mock_not_optimal_columns, np.array([]), 0,
-                                   False))._is_optimal_solution())
+        self.assertEqual(False, SimplexMethod(
+            Model(mock_not_optimal_min_mark_string, mock_not_optimal_columns, np.array([]), 0,
+                  False))._is_optimal_solution())
 
     def test__is_optimal_solution_min_invalid_optimal(self):
         method = SimplexMethod(
@@ -65,17 +61,14 @@ class SimplexMethodTestCase(unittest.TestCase):
         self.assertRaises(Exception, method._is_optimal_solution)
 
     def test__get_new_basis_variable_number_max_found(self):
-        self.assertEqual(3,
-                         SimplexMethod(
-                             Model(mock_not_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0,
-                                   True))._get_new_basis_variable_number())
+        self.assertEqual(3, SimplexMethod(
+            Model(mock_not_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0,
+                  True))._get_new_basis_variable_number())
 
     def test__get_new_basis_variable_number_max_found_with_one_available_column(self):
-        self.assertEqual(1,
-                         SimplexMethod(
-                             Model(mock_not_optimal_max_mark_string, mock_not_optimal_columns_with_one_available_column,
-                                   np.array([]), 0,
-                                   True))._get_new_basis_variable_number())
+        self.assertEqual(1, SimplexMethod(
+            Model(mock_not_optimal_max_mark_string, mock_not_optimal_columns_with_one_available_column, np.array([]), 0,
+                  True))._get_new_basis_variable_number())
 
     def test__get_new_basis_variable_number_max_not_found(self):
         method = SimplexMethod(Model(mock_optimal_max_mark_string, mock_not_optimal_columns, np.array([]), 0, True))
@@ -87,17 +80,14 @@ class SimplexMethodTestCase(unittest.TestCase):
         self.assertRaises(Exception, method._get_new_basis_variable_number)
 
     def test__get_new_basis_variable_number_min_found(self):
-        self.assertEqual(3,
-                         SimplexMethod(
-                             Model(mock_not_optimal_min_mark_string, mock_not_optimal_columns, np.array([]), 0,
-                                   False))._get_new_basis_variable_number())
+        self.assertEqual(3, SimplexMethod(
+            Model(mock_not_optimal_min_mark_string, mock_not_optimal_columns, np.array([]), 0,
+                  False))._get_new_basis_variable_number())
 
     def test__get_new_basis_variable_number_min_found_with_one_available_column(self):
-        self.assertEqual(1,
-                         SimplexMethod(
-                             Model(mock_not_optimal_min_mark_string, mock_not_optimal_columns_with_one_available_column,
-                                   np.array([]), 0,
-                                   False))._get_new_basis_variable_number())
+        self.assertEqual(1, SimplexMethod(
+            Model(mock_not_optimal_min_mark_string, mock_not_optimal_columns_with_one_available_column, np.array([]), 0,
+                  False))._get_new_basis_variable_number())
 
     def test__get_new_basis_variable_number_min_not_found(self):
         method = SimplexMethod(Model(mock_optimal_min_mark_string, mock_not_optimal_columns, np.array([]), 0, False))

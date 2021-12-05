@@ -1,5 +1,3 @@
-from fractions import Fraction
-
 import numpy as np
 
 from model import Model
@@ -21,7 +19,7 @@ class GomoriMethod(SimplexMethod):
 
         if [True for row_number in range(self._model.rows) if
             not self._is_integer(self._model.b[row_number]) and len(
-                    [True for i in self._model.a[row_number] if self._is_integer(i)]) == self._model.a[
+                [True for i in self._model.a[row_number] if self._is_integer(i)]) == self._model.a[
                 row_number].size]:
             raise Exception('Задача неразрешима т.к. в строке для дробной переменной все коэффициенты целые')
 
@@ -38,7 +36,9 @@ class GomoriMethod(SimplexMethod):
 
     def _add_condition(self, column_number):
         row_number = self._model.basis.tolist().index(column_number)
-        self._model.a = Model.array(np.concatenate((self._model.a, np.zeros((self._model.rows, 1))), axis=1).tolist() + [[self._get_floating_part(i) for i in self._model.a.tolist()[row_number]] + [-1]])
+        self._model.a = Model.array(
+            np.concatenate((self._model.a, np.zeros((self._model.rows, 1))), axis=1).tolist() + [
+                [self._get_floating_part(i) for i in self._model.a.tolist()[row_number]] + [-1]])
         self._model.b = Model.array(self._model.b.tolist() + [self._get_floating_part(self._model.b[row_number])])
         self._model.basis = np.array(self._model.basis.tolist() + [None])
         self._model.c = Model.array(self._model.c.tolist() + [1])
@@ -51,5 +51,6 @@ class GomoriMethod(SimplexMethod):
             condition_column_number = self._get_column_number_with_max_floating_part()
             self._add_condition(condition_column_number)
             self._model = super()._solve()
+            print(self._model)
 
         return self._model

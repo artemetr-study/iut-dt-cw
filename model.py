@@ -48,12 +48,13 @@ class Model:
                 undefined_basis_rows.append(row_number)
 
         m_a = self.array([[1 if row_number == needed_row else 0 for row_number in range(self.rows)] for needed_row in
-                        undefined_basis_rows]).T
+                          undefined_basis_rows]).T
         m_a = np.concatenate((self.a, m_a), axis=1)  # Складываем с единичной матрицей
 
         m_sum_a = sum(self.a) * sanction
         m_c = np.concatenate(
-            (self.c - m_sum_a if self.maximization else self.c + m_sum_a, self.ndarray_to_type(np.zeros((len(undefined_basis_rows),)))))
+            (self.c - m_sum_a if self.maximization else self.c + m_sum_a,
+             self.ndarray_to_type(np.zeros((len(undefined_basis_rows),)))))
 
         m_sum_b = sum(self.b) * sanction
         m_f = self.f - m_sum_b if self.maximization else self.f + m_sum_b
@@ -74,6 +75,13 @@ class Model:
             np.concatenate((np.array([[f'x_{i}'] if i != 'f' else [i] for i in self.basis.tolist() + ['f']]),
                             self.summary_table), axis=1).tolist(),
             header=['Basis', 'b'] + [f'x_{i}' for i in range(self.columns)],
+            style=tt.styles.ascii_thin_double
+        )
+
+        bv = {int(basis): value for basis, value in zip(self.basis, self.b)}
+        t += '\n' + tt.to_string(
+            [[self.f] + [bv.get(i) if bv.get(i) else '–' for i in range(self.columns)]],
+            header=['f'] + [f'x_{i}' for i in range(self.columns)],
             style=tt.styles.ascii_thin_double
         )
 
