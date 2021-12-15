@@ -121,7 +121,11 @@ class SimplexMethod:
             column_number = self._get_new_basis_variable_number()
             row_number = self._get_solved_row_number(column_number)
             # print(column_number, row_number)
-            self._recalculate_with_new_basis(column_number, row_number)  # print(self._model)
+            self._recalculate_with_new_basis(column_number, row_number)
+            # if not self._model.conditions_are_met():
+            #     print(self._model)
+
+        # print(self._model)
 
         return self._model
 

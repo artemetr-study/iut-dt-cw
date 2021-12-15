@@ -1,3 +1,5 @@
+from fractions import Fraction
+
 import numpy as np
 
 from model import Model
@@ -7,6 +9,8 @@ from simplex_method import SimplexMethod
 class GomoriMethod(SimplexMethod):
     @staticmethod
     def _get_floating_part(value):
+        if type(value) is Fraction:
+            return value % 1
         return round(value, ndigits=13) % 1
 
     @classmethod
@@ -14,12 +18,14 @@ class GomoriMethod(SimplexMethod):
         return not cls._get_floating_part(value)
 
     def _is_integer_optimal_solution(self):
-        if self._is_integer(self._model.f) and np.array([self._is_integer(i) for i in self._model.b]).prod():
+        if np.array([self._is_integer(b) for b, basis in zip(self._model.b, self._model.basis) if
+                     basis < self._model.significant_columns]).prod():
             return True
 
         if [True for row_number in range(self._model.rows) if
-            not self._is_integer(self._model.b[row_number]) and len(
-                [True for i in self._model.a[row_number] if self._is_integer(i)]) == self._model.a[
+            self._model.basis[row_number] < self._model.significant_columns and not self._is_integer(
+                    self._model.b[row_number]) and len(
+                    [True for i in self._model.a[row_number] if self._is_integer(i)]) == self._model.a[
                 row_number].size]:
             raise Exception('Задача неразрешима т.к. в строке для дробной переменной все коэффициенты целые')
 

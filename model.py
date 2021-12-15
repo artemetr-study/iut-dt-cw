@@ -6,17 +6,32 @@ from numpy import ndarray
 
 
 class Model:
-    def __init__(self, c: ndarray, a: ndarray, b: ndarray, f=0, maximization: bool = True, basis: ndarray = None):
+    def __init__(self, c: ndarray, a: ndarray, b: ndarray, f=0, maximization: bool = True, basis: ndarray = None,
+                 significant_columns: int = None, without_original_model: bool = False):
         self.c = self.ndarray_to_type(c)
         self.a = self.ndarray_to_type(a)
         self.b = self.ndarray_to_type(b)
         self.f = self.to_type(f)
         self.maximization = maximization
         self.basis = np.array([None for _ in range(self.columns)]) if basis is None else basis
+        self.original_model = None
+        if not without_original_model:
+            self.significant_columns = significant_columns if significant_columns else self.columns
+            self.original_model = self.__class__(c, a, b, f, maximization, basis, significant_columns, True)
 
     @property
     def rows(self):
         return self.a.shape[0]
+
+    def conditions_are_met(self) -> bool:
+        variables = {int(basis): b for basis, b in zip(self.basis, self.b)}
+        for o_row, b in zip(self.a, self.b):
+            print([str(k * (variables.get(num) or 0)) for k, num in zip(o_row, range(self.columns))])
+            print(sum([k * (variables.get(num) or 0) for k, num in zip(o_row, range(self.columns))]), b)
+            if sum([k * (variables.get(num) or 0) for k, num in zip(o_row, range(self.columns))]) != b:
+                return False
+
+        return True
 
     @property
     def columns(self):
